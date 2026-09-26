@@ -1,0 +1,269 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/kalam-400.woff2') format('woff2'),
+       url('/fonts/kalam-400.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Kalam';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/kalam-700.woff2') format('woff2'),
+       url('/fonts/kalam-700.ttf') format('truetype');
+}
+
+:root {
+  --primary-blue: #2E5AFF;
+  --primary-blue-hover: #1E46E6;
+  --primary-blue-light: #EBF1FF;
+  --primary-blue-subtle: #F2F6FF;
+  --primary-blue-glow: rgba(46, 90, 255, 0.25);
+
+  --accent-amber: #FFB020;
+  --accent-amber-hover: #F09E0D;
+  --accent-amber-dark: #D98205;
+  --accent-amber-light: #FFF7EB;
+  --accent-amber-glow: rgba(255, 176, 32, 0.35);
+
+  --bg-page: #F7F9FC;
+  --bg-card: #FFFFFF;
+  --bg-nav: rgba(255, 255, 255, 0.88);
+
+  --text-main: #0F172A;
+  --text-muted: #475569;
+  --text-subtle: #64748B;
+
+  --border-light: #E2E8F0;
+  --circuit-trace: #C6D8FF;
+  --circuit-dashed: #BFD3FE;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Background interactive circuit canvas */
+#circuit-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+}
+
+/* Ensure content sits above canvas */
+header, main, footer, section {
+  position: relative;
+  z-index: 1;
+}
+
+/* Glowing Circuit LEDs */
+.led-indicator {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #38BDF8;
+  box-shadow: 0 0 8px #38BDF8, 0 0 16px rgba(56, 189, 248, 0.8);
+  animation: ledPulse 1.8s infinite alternate ease-in-out;
+  pointer-events: none;
+}
+
+.led-indicator.amber {
+  background-color: #F59E0B;
+  box-shadow: 0 0 8px #F59E0B, 0 0 16px rgba(245, 158, 11, 0.8);
+  animation: ledPulseAmber 1.4s infinite alternate ease-in-out;
+}
+
+.led-indicator.green {
+  background-color: #10B981;
+  box-shadow: 0 0 8px #10B981, 0 0 16px rgba(16, 185, 129, 0.8);
+  animation: ledPulseGreen 2.2s infinite alternate ease-in-out;
+}
+
+@keyframes ledPulse {
+  0% {
+    opacity: 0.5;
+    filter: brightness(0.9);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(1.4);
+    box-shadow: 0 0 12px #38BDF8, 0 0 24px rgba(56, 189, 248, 0.95);
+  }
+  100% {
+    opacity: 0.6;
+    filter: brightness(1);
+  }
+}
+
+@keyframes ledPulseAmber {
+  0% { opacity: 0.4; }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 12px #F59E0B, 0 0 20px rgba(245, 158, 11, 0.9);
+  }
+  100% { opacity: 0.5; }
+}
+
+@keyframes ledPulseGreen {
+  0% { opacity: 0.6; }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 12px #10B981, 0 0 20px rgba(16, 185, 129, 0.9);
+  }
+  100% { opacity: 0.7; }
+}
+
+/* Floating Badges Animation */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes floatReverse {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.animate-float-1 {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: floatReverse 6s ease-in-out infinite 0.5s;
+}
+
+/* Pulse Ring Animation on Play Buttons */
+.pulse-ring-btn {
+  position: relative;
+}
+
+.pulse-ring-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--primary-blue);
+  opacity: 0.4;
+  animation: ripplePulse 2.2s infinite cubic-bezier(0.25, 0.8, 0.25, 1);
+  pointer-events: none;
+}
+
+@keyframes ripplePulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Scroll Indicator Nudge */
+@keyframes scrollNudge {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+.animate-scroll-nudge {
+  animation: scrollNudge 1.6s ease-in-out infinite;
+}
+
+/* Form Shake Error Animation */
+@keyframes shakeInput {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.shake-error {
+  animation: shakeInput 0.4s ease-in-out;
+}
+
+/* Confetti Canvas */
+.confetti-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Accordion Gallery CSS variables and 3D perspective */
+.accordion-gallery-container {
+  perspective: 1400px;
+  perspective-origin: 50% 50%;
+}
+
+/* Subtle Handwritten Annotation Entrance */
+@keyframes noteFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-note-fade-in {
+  animation: noteFadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Curved Hand-Drawn SVG Underline Drawing Animation */
+@keyframes drawUnderline {
+  0% {
+    stroke-dashoffset: 220;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.hand-drawn-underline-path {
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: drawUnderline 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+}

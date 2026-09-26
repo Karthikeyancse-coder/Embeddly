@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60" fill="none">
+  <!-- Microchip Icon -->
+  <g transform="translate(4, 6)">
+    <!-- Outer Chip Body -->
+    <rect x="10" y="10" width="30" height="30" rx="8" fill="#FFFFFF" stroke="#2E5AFF" stroke-width="2.5" />
+    
+    <!-- Inner Core Die -->
+    <rect x="18" y="18" width="14" height="14" rx="3.5" fill="#EBF1FF" stroke="#2E5AFF" stroke-width="1.8" />
+    <circle cx="25" cy="25" r="2.5" fill="#2E5AFF" />
+    
+    <!-- Top Pins -->
+    <path d="M17 10V4 M25 10V4 M33 10V4" stroke="#2E5AFF" stroke-width="2" stroke-linecap="round" />
+    
+    <!-- Bottom Pins -->
+    <path d="M17 40V46 M25 40V46 M33 40V46" stroke="#2E5AFF" stroke-width="2" stroke-linecap="round" />
+    
+    <!-- Left Pins -->
+    <path d="M10 17H4 M10 25H4 M10 33H4" stroke="#2E5AFF" stroke-width="2" stroke-linecap="round" />
+    
+    <!-- Right Pins -->
+    <path d="M40 17H46 M40 25H46 M40 33H46" stroke="#2E5AFF" stroke-width="2" stroke-linecap="round" />
+    
+    <!-- Pulse Indicator Dot -->
+    <circle cx="25" cy="18" r="1.2" fill="#FFB020" />
+  </g>
+
+  <!-- Typography: Embeddly -->
+  <text x="62" y="35" font-family="'Space Grotesk', 'Poppins', system-ui, -apple-system, sans-serif" font-size="25" font-weight="700" letter-spacing="-0.5">
+    <tspan fill="#0F172A">Embedd</tspan><tspan fill="#2E5AFF">ly</tspan>
+  </text>
+  
+  <!-- Tagline: Learn • Build • Innovate -->
+  <text x="63" y="49" font-family="'Inter', system-ui, sans-serif" font-size="9" font-weight="500" letter-spacing="1.8" fill="#64748B">
+    LEARN • BUILD • INNOVATE
+  </text>
+</svg>
