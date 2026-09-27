@@ -33,39 +33,141 @@ export default function UpcomingEvents() {
   const cardsRef = useRef([]);
 
   useEffect(() => {
+    // 1. Reduced motion check: immediately show all content
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
-    if (prefersReducedMotion) return;
 
+    const showAllInstantly = () => {
+      if (headerRef.current) {
+        headerRef.current.style.opacity = "1";
+        headerRef.current.style.transform = "none";
+      }
+      cardsRef.current.forEach((card) => {
+        if (card) {
+          card.style.opacity = "1";
+          card.style.transform = "none";
+        }
+      });
+    };
+
+    if (prefersReducedMotion) {
+      showAllInstantly();
+      return;
+    }
+
+    // 2. Safe check: If section is already within or near the viewport on mount
+    // (e.g. user arrived via anchor #events, browser scroll restoration, or direct link)
+    const checkInitialVisibility = () => {
+      if (!sectionRef.current) return false;
+      const rect = sectionRef.current.getBoundingClientRect();
+      return rect.top < window.innerHeight * 0.9 && rect.bottom > 0;
+    };
+
+    const isInitiallyVisible = checkInitialVisibility();
+
+    // 3. Fallback: Native IntersectionObserver ensures visibility regardless of GSAP ScrollTrigger state
+    // Immune to dynamic layout shifts from 3D models or images loading above
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            showAllInstantly();
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: "100px", threshold: 0.05 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    // 4. GSAP Context & ScrollTrigger
     const ctx = gsap.context(() => {
-      // Header fade + translateY
-      gsap.from(headerRef.current, {
-        opacity: 0,
-        y: 24,
-        duration: 0.7,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-        },
-      });
+      // Re-sync ScrollTrigger offsets
+      ScrollTrigger.refresh();
 
-      // Cards staggered reveal
-      gsap.from(cardsRef.current, {
-        opacity: 0,
-        y: 35,
-        duration: 0.75,
-        stagger: 0.15,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 72%",
-        },
-      });
+      if (isInitiallyVisible) {
+        // Section is already visible: show immediately, smooth entry without hiding
+        gsap.to(headerRef.current, { opacity: 1, y: 0, duration: 0.4 });
+        const validCards = cardsRef.current.filter(Boolean);
+        if (validCards.length > 0) {
+          gsap.to(validCards, {
+            opacity: 1,
+            y: 0,
+            duration: 0.4,
+            stagger: 0.1,
+          });
+        }
+      } else {
+        // Section is below viewport: animate when entering
+        gsap.fromTo(
+          headerRef.current,
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 85%",
+              once: true,
+              fastScrollEnd: true,
+              onEnter: () => {
+                if (headerRef.current) {
+                  headerRef.current.style.opacity = "1";
+                  headerRef.current.style.transform = "none";
+                }
+              },
+            },
+          }
+        );
+
+        const validCards = cardsRef.current.filter(Boolean);
+        if (validCards.length > 0) {
+          gsap.fromTo(
+            validCards,
+            { opacity: 0, y: 30 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.75,
+              stagger: 0.15,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 85%",
+                once: true,
+                fastScrollEnd: true,
+                onEnter: () => {
+                  validCards.forEach((card) => {
+                    if (card) {
+                      card.style.opacity = "1";
+                      card.style.transform = "none";
+                    }
+                  });
+                },
+              },
+            }
+          );
+        }
+      }
     }, sectionRef);
 
-    return () => ctx.revert();
+    // Refresh ScrollTrigger when images or 3D assets finish loading
+    const handleLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", handleLoad);
+    window.addEventListener("resize", handleLoad);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("load", handleLoad);
+      window.removeEventListener("resize", handleLoad);
+      ctx.revert();
+    };
   }, []);
 
   return (

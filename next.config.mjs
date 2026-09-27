@@ -23,6 +23,15 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/events',
+        destination: '/#events',
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
