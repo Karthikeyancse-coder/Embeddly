@@ -77,7 +77,7 @@ export default function MobileMenu({ isOpen, onClose, activeSection }) {
                 onClick={onClose}
                 className="w-full text-center"
               >
-                Enroll Now
+                Start Building
               </Button>
             </li>
           </ul>

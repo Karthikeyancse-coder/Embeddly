@@ -17,7 +17,7 @@ export default function Navbar() {
       const scrollY = window.scrollY;
       setScrolled(scrollY > 50);
 
-      const sectionIds = ["home", "about", "video", "gallery", "events", "enroll"];
+      const sectionIds = ["home", "about", "brand", "why", "video", "mentor", "gallery", "events", "program", "who", "enroll"];
       let current = "home";
 
       for (const id of sectionIds) {
@@ -103,7 +103,7 @@ export default function Navbar() {
               href="#enroll"
               className="hidden md:inline-flex"
             >
-              Enroll Now
+              Start Building
             </Button>
 
             {/* Mobile Menu Toggle Button */}

@@ -1,11 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import SectionHeading from "@/components/SectionHeading";
 import AccordionGallery from "@/components/AccordionGallery";
 import LightboxModal from "@/components/LightboxModal";
 import { GALLERY_CATEGORIES, GALLERY_ITEMS } from "@/data/gallery";
-import { Layers, Cpu, Users, Zap } from "lucide-react";
+
+const CATEGORY_LABELS = {
+  all: "Everything",
+  classrooms: "Classrooms",
+  workshops: "Workshops",
+  projects: "Projects",
+  events: "Events",
+};
+
+const CONTEXT_LABELS = [
+  "Circuit Assembly",
+  "PCB Debugging",
+  "Firmware Testing",
+  "Prototype Assembly",
+  "Hardware Experiment",
+];
 
 export default function PhotoGallery() {
   const [activeCategory, setActiveCategory] = useState("all");
@@ -17,38 +31,56 @@ export default function PhotoGallery() {
       : GALLERY_ITEMS.filter((item) => item.category === activeCategory);
 
   return (
-    <section id="gallery" className="py-20 sm:py-28 relative">
+    <section id="gallery" className="py-20 sm:py-28 relative bg-white">
       <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Heading Tag */}
-        <SectionHeading
-          tag="PHOTO GALLERY"
-          title="A Look Inside"
-          highlight="Embeddly"
-          subtitle="Moments from our classrooms, workshops, and student projects. Real people, real learning, real hardware."
-        />
 
-        {/* Filter Tabs */}
-        <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-3 mb-10">
-          {GALLERY_CATEGORIES.map((cat) => {
-            const isActive = activeCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => setActiveCategory(cat.id)}
-                className={`font-heading text-xs sm:text-sm font-bold px-5 py-2.5 rounded-full transition-all duration-200 cursor-pointer select-none ${
-                  isActive
-                    ? "bg-embeddly-blue text-white shadow-blue-glow scale-105"
-                    : "bg-white text-slate-600 hover:text-embeddly-blue border border-slate-200 hover:border-embeddly-blue/40 shadow-sm"
-                }`}
-              >
-                {cat.label}
-              </button>
-            );
-          })}
+        {/* Header */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-end mb-10 sm:mb-12">
+          <div>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-embeddly-blue-subtle border border-dashed border-[#BFD3FE] text-embeddly-blue font-heading text-xs font-bold tracking-widest uppercase mb-5">
+              Build Gallery
+            </div>
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-[2.75rem] font-bold text-slate-900 leading-[1.15] tracking-tight">
+              Things We&apos;ve Built.{" "}
+              <span className="bg-gradient-to-r from-embeddly-blue to-[#0042E0] bg-clip-text text-transparent block mt-0.5">
+                Things We&apos;ve Learned.
+              </span>
+            </h2>
+          </div>
+          <div className="flex flex-wrap gap-2 lg:justify-end">
+            {GALLERY_CATEGORIES.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`font-heading text-xs font-bold px-4 py-2 rounded-full transition-all duration-200 cursor-pointer select-none ${
+                    isActive
+                      ? "bg-embeddly-blue text-white shadow-blue-glow"
+                      : "bg-[#F7F9FC] text-slate-600 hover:text-embeddly-blue border border-slate-200 hover:border-embeddly-blue/40"
+                  }`}
+                >
+                  {CATEGORY_LABELS[cat.id] || cat.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Interactive Accordion Gallery Row from React Bits */}
+        {/* Context labels strip */}
+        <div className="flex flex-wrap gap-2 mb-7">
+          {CONTEXT_LABELS.map((label) => (
+            <span
+              key={label}
+              className="text-[11px] font-heading font-semibold text-slate-500 bg-[#F7F9FC] border border-slate-200 px-3 py-1 rounded-full"
+            >
+              {label}
+            </span>
+          ))}
+        </div>
+
+        {/* Accordion Gallery */}
         <div className="w-full max-w-full overflow-hidden">
           <AccordionGallery
             items={filteredItems}
@@ -67,46 +99,15 @@ export default function PhotoGallery() {
           />
         </div>
 
-        {/* Community Testimonial Quote */}
+        {/* Community quote */}
         <div className="text-center mt-12 sm:mt-14">
-          <p className="font-heading text-lg sm:text-xl font-medium text-slate-600 italic">
-            “More than a classroom, it’s a community of builders.”
+          <p className="font-heading text-lg sm:text-xl font-medium text-slate-500 italic">
+            &quot;More than a classroom, it&apos;s a community of builders.&quot;
           </p>
-        </div>
-
-        {/* Feature Pills Strip */}
-        <div className="w-full flex justify-center mt-8 sm:mt-10 px-2 sm:px-0">
-          <div className="grid grid-cols-2 max-[360px]:grid-cols-1 gap-x-4 sm:gap-x-6 gap-y-4 sm:gap-y-5 md:flex md:flex-row md:items-center md:justify-center md:flex-nowrap md:gap-5 lg:gap-7 px-5 sm:px-7 py-4 bg-white border border-slate-200 rounded-2xl md:rounded-full shadow-card-sm w-full max-w-sm sm:max-w-md md:w-fit md:max-w-full">
-            <div className="flex items-center gap-2.5 text-slate-900 font-semibold text-[13.5px] sm:text-sm lg:text-base leading-[1.3] min-w-0">
-              <Layers className="w-5 h-5 text-embeddly-blue shrink-0" />
-              <span className="md:whitespace-nowrap">Hands-on Learning</span>
-            </div>
-
-            <div className="hidden md:block w-px h-5 bg-slate-200 flex-shrink-0" />
-
-            <div className="flex items-center gap-2.5 text-slate-900 font-semibold text-[13.5px] sm:text-sm lg:text-base leading-[1.3] min-w-0">
-              <Cpu className="w-5 h-5 text-embeddly-blue shrink-0" />
-              <span className="md:whitespace-nowrap">Real-World Projects</span>
-            </div>
-
-            <div className="hidden md:block w-px h-5 bg-slate-200 flex-shrink-0" />
-
-            <div className="flex items-center gap-2.5 text-slate-900 font-semibold text-[13.5px] sm:text-sm lg:text-base leading-[1.3] min-w-0">
-              <Users className="w-5 h-5 text-embeddly-blue shrink-0" />
-              <span className="md:whitespace-nowrap">Supportive Community</span>
-            </div>
-
-            <div className="hidden md:block w-px h-5 bg-slate-200 flex-shrink-0" />
-
-            <div className="flex items-center gap-2.5 text-slate-900 font-semibold text-[13.5px] sm:text-sm lg:text-base leading-[1.3] min-w-0">
-              <Zap className="w-5 h-5 text-embeddly-blue shrink-0" />
-              <span className="md:whitespace-nowrap">Brighter Futures</span>
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Lightbox Modal */}
+      {/* Lightbox */}
       <LightboxModal
         isOpen={!!lightboxItem}
         onClose={() => setLightboxItem(null)}

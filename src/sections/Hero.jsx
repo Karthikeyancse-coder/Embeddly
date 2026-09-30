@@ -1,19 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import Image from "next/image";
-import { Star, Play, Zap, Cpu, Settings, TrendingUp } from "lucide-react";
-import Button from "@/components/Button";
-import StatCard from "@/components/StatCard";
-import VideoPlayer from "@/components/VideoPlayer";
-import { HERO_STATS } from "@/data/stats";
+import { ArrowRight, Play, Cpu, Zap } from "lucide-react";
 import { kalam } from "@/lib/fonts";
+import VideoPlayer from "@/components/VideoPlayer";
 
 const EmbeddlyRobot = dynamic(() => import("@/components/EmbeddlyRobot"), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-[460px] sm:h-[540px] lg:h-[580px] xl:h-[620px] flex items-center justify-center">
+    <div className="w-full h-[460px] sm:h-[540px] lg:h-[580px] flex items-center justify-center">
       <div className="w-12 h-12 rounded-full border-4 border-embeddly-blue/20 border-t-embeddly-blue animate-spin" />
     </div>
   ),
@@ -21,243 +17,186 @@ const EmbeddlyRobot = dynamic(() => import("@/components/EmbeddlyRobot"), {
 
 export default function Hero() {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const headlineRef = useRef(null);
+  const subRef = useRef(null);
 
-  const scrollToSection = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+  const scrollTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Progressive reveal — never hidden by animation
+  useEffect(() => {
+    if (headlineRef.current) headlineRef.current.style.opacity = "1";
+    if (subRef.current) subRef.current.style.opacity = "1";
+  }, []);
+
   return (
-    <section id="home" className="pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-hidden">
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          {/* Left Column: Copy & CTAs */}
+    <section id="home" className="pt-24 pb-16 sm:pt-32 sm:pb-20 overflow-hidden relative">
+      {/* Subtle grid background */}
+      <div
+        className="absolute inset-0 pointer-events-none select-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(46,90,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(46,90,255,0.035) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center">
+
+          {/* ─── Left Column ─── */}
           <div className="lg:col-span-7 flex flex-col items-start">
-            {/* Eyebrow Pill */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-embeddly-blue-subtle border border-dashed border-[#BFD3FE] text-embeddly-blue font-heading text-xs font-bold tracking-wider uppercase mb-6">
-              <Star className="w-3.5 h-3.5 fill-current" />
-              <span>Practical • Project-Based • Future-Ready</span>
+
+            {/* EDDY intro pill */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-embeddly-blue-subtle border border-dashed border-[#BFD3FE] text-embeddly-blue font-heading text-xs font-bold tracking-widest uppercase mb-6">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              EDDY is ready to build.
             </div>
 
-            {/* Headline */}
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-[3.85rem] font-bold text-slate-900 leading-[1.12] tracking-tight mb-6">
-              Learn Electronics &amp; Embedded Systems for a{" "}
-              <span className="bg-gradient-to-r from-embeddly-blue via-blue-600 to-[#0042E0] bg-clip-text text-transparent">
-                Smarter Tomorrow
-              </span>
+            {/* Main Headline */}
+            <h1
+              ref={headlineRef}
+              className="font-heading text-[2.6rem] sm:text-5xl lg:text-[3.6rem] xl:text-[4rem] font-bold text-slate-900 leading-[1.06] tracking-tight mb-5"
+            >
+              Don&apos;t Just{" "}
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-embeddly-blue via-blue-600 to-[#0042E0] bg-clip-text text-transparent">
+                  Learn
+                </span>
+              </span>{" "}
+              Electronics.{" "}
+              <span className="block mt-1 text-slate-900">Build It.</span>
             </h1>
 
-            {/* Subtext */}
-            <p className="text-slate-600 text-lg sm:text-xl leading-relaxed mb-8 max-w-xl">
-              Hands-on courses, real-world projects, and expert mentorship to help
-              you build, experiment, and innovate with electronics and embedded
-              systems.
+            {/* Sub headline */}
+            <p
+              ref={subRef}
+              className="text-slate-500 text-base sm:text-lg leading-relaxed mb-3 max-w-xl font-medium"
+            >
+              From your first circuit to your first working prototype.
+            </p>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-8 max-w-xl">
+              Embeddly is a practical engineering platform where students learn
+              electronics, embedded systems and hardware by building real
+              things — not simply watching someone else build them.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-5 sm:gap-6 mb-12">
-              <Button href="#enroll">Enroll Now</Button>
+            <div className="flex flex-wrap items-center gap-4 mb-12">
+              <a
+                href="#enroll"
+                onClick={(e) => { e.preventDefault(); scrollTo("enroll"); }}
+                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-embeddly-amber hover:bg-embeddly-amber-hover text-slate-900 font-heading font-bold text-sm sm:text-base shadow-amber-glow hover:shadow-[0_8px_24px_rgba(255,176,32,0.45)] transition-all duration-300 group cursor-pointer select-none"
+              >
+                Start Building
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </a>
 
               <button
                 type="button"
                 onClick={() => setVideoModalOpen(true)}
-                className="inline-flex items-center gap-3.5 text-left group cursor-pointer"
-                aria-label="Watch introductory video"
+                className="inline-flex items-center gap-3 group cursor-pointer"
+                aria-label="See how we build"
               >
-                <div className="w-12 h-12 rounded-full bg-embeddly-blue text-white flex items-center justify-center pulse-ring-btn shadow-blue-glow group-hover:scale-105 transition-transform duration-300">
-                  <Play className="w-5 h-5 fill-current ml-0.5" />
+                <div className="w-11 h-11 rounded-full bg-embeddly-blue text-white flex items-center justify-center pulse-ring-btn shadow-blue-glow group-hover:scale-105 transition-transform duration-300">
+                  <Play className="w-4 h-4 fill-current ml-0.5" />
                 </div>
                 <div>
                   <div className="font-heading text-sm font-bold text-slate-900 group-hover:text-embeddly-blue transition-colors">
-                    Watch Our Intro
+                    See How We Build
                   </div>
-                  <div className="text-xs text-slate-500 font-medium">
-                    See how we teach
+                  <div className="text-xs text-slate-500">
+                    Inside a build session
                   </div>
                 </div>
               </button>
             </div>
 
-            {/* Hero Quick Stats Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 border-t border-slate-200/80 w-full max-w-xl">
-              {HERO_STATS.map((stat) => (
-                <StatCard
-                  key={stat.label}
-                  target={stat.target}
-                  suffix={stat.suffix}
-                  title={stat.label}
-                  icon={stat.icon}
-                  compact
-                />
+            {/* Quick facts */}
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-5 border-t border-slate-200/80">
+              {[
+                { icon: Cpu, label: "Real Hardware" },
+                { icon: Zap, label: "Hands-on Projects" },
+                { icon: ArrowRight, label: "Prototype Outcomes" },
+              ].map(({ icon: Icon, label }) => (
+                <div key={label} className="inline-flex items-center gap-2 text-slate-600 text-sm font-semibold">
+                  <Icon className="w-4 h-4 text-embeddly-blue flex-shrink-0" />
+                  {label}
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Right Column: Hardware Circuit Visual Card */}
-          <div className="lg:col-span-5 relative mt-6 lg:mt-0">
-            {/* 1. Handwritten Annotation: Learn Build Innovate */}
-            {/* Position: Above-left of robot head. Adjust 'top' and 'left' to fine-tune */}
-            <div className="absolute top-0 sm:top-1 left-2 sm:left-4 lg:left-6 z-20 hidden md:block select-none pointer-events-none animate-note-fade-in">
+          {/* ─── Right Column: Robot ─── */}
+          <div className="lg:col-span-5 relative mt-4 lg:mt-0">
+            {/* EDDY label — top left */}
+            <div className="absolute top-2 left-4 z-20 hidden md:block select-none pointer-events-none animate-note-fade-in">
               <div
-                className={`${kalam.className} text-[22px] md:text-[26px] lg:text-[25px] leading-[0.95] text-[#2E5AFF]`}
-                style={{
-                  fontFamily: `'Kalam', ${kalam.style.fontFamily}, cursive`,
-                  fontWeight: 700,
-                  fontStyle: "normal",
-                }}
+                className={`${kalam.className} text-[20px] leading-[0.95] text-embeddly-blue`}
+                style={{ fontWeight: 700 }}
               >
-                <span className="block" style={{ transform: "translateX(0px)" }}>Learn</span>
-                <span className="block" style={{ transform: "translateX(6px)" }}>Build</span>
-                <span className="block" style={{ transform: "translateX(2px)" }}>Innovate</span>
+                <span className="block text-[11px] font-heading tracking-widest text-slate-400 uppercase mb-1 font-bold">
+                  Meet
+                </span>
+                <span className="block text-[2rem] text-embeddly-blue">EDDY</span>
               </div>
-              {/* Organic Curved Hand-Drawn SVG Underline */}
-              <svg
-                viewBox="0 0 220 35"
-                className="w-[115px] md:w-[135px] lg:w-[120px] h-auto -mt-1"
-                aria-hidden="true"
-              >
-                <path
-                  d="M8 18 C45 28 70 12 105 18 C145 25 175 10 215 15"
-                  fill="none"
-                  stroke="#2E5AFF"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <div className="text-xs text-slate-500 font-heading font-semibold mt-0.5">
+                Your build companion.
+              </div>
             </div>
 
-            {/* 2. Handwritten Annotation: IDEAS CIRCUITS REAL SOLUTIONS */}
-            {/* Position: Upper-right of robot head. Adjust 'top' and 'right' to fine-tune */}
-            <div className="absolute top-1 sm:top-2 right-4 sm:right-6 lg:right-8 z-20 hidden md:block select-none pointer-events-none animate-note-fade-in">
+            {/* Annotation — top right */}
+            <div className="absolute top-2 right-3 sm:right-5 z-20 hidden md:block select-none pointer-events-none animate-note-fade-in">
               <div
-                className={`${kalam.className} text-[14px] md:text-[16px] lg:text-[15px] leading-[1.05] tracking-wider text-right text-slate-500`}
-                style={{
-                  fontFamily: `'Kalam', ${kalam.style.fontFamily}, cursive`,
-                  fontWeight: 700,
-                  fontStyle: "normal",
-                }}
+                className={`${kalam.className} text-[13px] leading-[1.1] text-right text-slate-400`}
+                style={{ fontWeight: 700 }}
               >
-                <span className="block" style={{ transform: "translateX(0px)" }}>IDEAS</span>
-                <span className="block mr-1" style={{ transform: "translateX(-4px)" }}>CIRCUITS</span>
-                <span className="block" style={{ transform: "translateX(0px)" }}>REAL SOLUTIONS</span>
+                <span className="block">Circuit</span>
+                <span className="block">→ Code</span>
+                <span className="block">→ Build</span>
               </div>
-              {/* Hand-Drawn Underline */}
-              <svg
-                viewBox="0 0 145 20"
-                className="w-[95px] md:w-[115px] lg:w-[125px] h-auto text-slate-400 mt-0.5 ml-auto"
-                aria-hidden="true"
-              >
-                <path
-                  d="M4 12 C 38 18, 80 4, 140 10"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
             </div>
 
-            {/* Main 3D Embeddly Robot Canvas (Unchanged Center Anchor) */}
+            {/* Robot */}
             <div className="relative w-full flex items-center justify-center">
               <EmbeddlyRobot />
             </div>
 
-            {/* 3. Floating Badge: Code Program */}
-            {/* Position: Lower-left flank of robot. Adjust 'bottom' and 'left' to fine-tune */}
-            <div className="animate-float-1 absolute bottom-12 sm:bottom-4 left-4 sm:left-3 lg:left-4 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-card-md flex items-center gap-3 z-20 pointer-events-auto">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-embeddly-blue-subtle text-embeddly-blue font-mono font-bold flex items-center justify-center text-sm border border-embeddly-blue/15">
+            {/* Floating badge — lower left */}
+            <div className="animate-float-1 absolute bottom-10 sm:bottom-4 left-2 sm:left-3 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl p-3 shadow-card-md flex items-center gap-3 z-20">
+              <div className="w-9 h-9 rounded-xl bg-embeddly-blue-subtle text-embeddly-blue font-mono font-bold flex items-center justify-center text-sm border border-embeddly-blue/15">
                 &lt;/&gt;
               </div>
               <div>
-                <div className="font-heading text-xs sm:text-sm font-bold text-slate-900 leading-tight">
-                  Code Program
+                <div className="font-heading text-xs font-bold text-slate-900 leading-tight">
+                  Firmware Ready
                 </div>
-                <div className="text-[11px] sm:text-xs text-slate-500">
-                  Control &amp; Automate
+                <div className="text-[11px] text-slate-500">
+                  Write. Flash. Run.
                 </div>
               </div>
             </div>
 
-            {/* 4. Floating Badge: Design Prototype */}
-            {/* Position: Mid/upper-right flank of robot. Adjust 'top' and 'right' to fine-tune */}
-            <div className="animate-float-2 absolute top-16 sm:top-20 -right-1 sm:-right-2 lg:-right-4 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl p-3 sm:p-3.5 shadow-card-md flex items-center gap-3 z-20 pointer-events-auto">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-base sm:text-lg border border-amber-200">
-                ⚙️
+            {/* Floating badge — upper right */}
+            <div className="animate-float-2 absolute top-14 sm:top-16 -right-1 sm:right-0 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl p-3 shadow-card-md flex items-center gap-3 z-20">
+              <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-base border border-amber-200">
+                ⚡
               </div>
               <div>
-                <div className="font-heading text-xs sm:text-sm font-bold text-slate-900 leading-tight">
-                  Design Prototype
+                <div className="font-heading text-xs font-bold text-slate-900 leading-tight">
+                  Circuit Live
                 </div>
-                <div className="text-[11px] sm:text-xs text-slate-500">
-                  Test &amp; Deploy
+                <div className="text-[11px] text-slate-500">
+                  First prototype
                 </div>
               </div>
             </div>
-
-            {/* 5. Handwritten Annotation: From Concept to Creation */}
-            {/* Position: Lower-right below robot. Adjust 'bottom' and 'right' to fine-tune */}
-            <div className="absolute bottom-2 sm:bottom-3 right-4 sm:right-8 lg:right-10 z-20 hidden md:block select-none pointer-events-none animate-note-fade-in">
-              <div
-                className={`${kalam.className} text-[18px] md:text-[23px] lg:text-[21px] leading-[0.95] text-[#2E5AFF]`}
-                style={{
-                  fontFamily: `'Kalam', ${kalam.style.fontFamily}, cursive`,
-                  fontWeight: 700,
-                  fontStyle: "normal",
-                }}
-              >
-                <span className="block" style={{ transform: "translateX(0px)" }}>From</span>
-                <span className="block" style={{ transform: "translateX(6px)" }}>Concept</span>
-                <span className="block" style={{ transform: "translateX(2px)" }}>to Creation</span>
-              </div>
-              {/* Organic Curved Hand-Drawn SVG Underline */}
-              <svg
-                viewBox="0 0 220 35"
-                className="w-[115px] md:w-[135px] lg:w-[120px] h-auto -mt-1"
-                aria-hidden="true"
-              >
-                <path
-                  d="M8 18 C45 28 70 12 105 18 C145 25 175 10 215 15"
-                  fill="none"
-                  stroke="#2E5AFF"
-                  strokeWidth="4"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        {/* Feature Pills Strip */}
-        <div className="flex items-center justify-center flex-wrap gap-3 sm:gap-4 px-6 py-4 bg-white border border-slate-200 rounded-2xl sm:rounded-full shadow-card-sm max-w-4xl mx-auto mt-16 sm:mt-20">
-          <div className="inline-flex items-center gap-2 text-slate-900 font-semibold text-sm sm:text-base px-2">
-            <Zap className="w-4 h-4 text-embeddly-blue flex-shrink-0" />
-            <span>Explore</span>
-          </div>
-          <div className="hidden sm:block w-px h-5 bg-slate-200" />
-          <div className="inline-flex items-center gap-2 text-slate-900 font-semibold text-sm sm:text-base px-2">
-            <Settings className="w-4 h-4 text-embeddly-blue flex-shrink-0" />
-            <span>Experiment</span>
-          </div>
-          <div className="hidden sm:block w-px h-5 bg-slate-200" />
-          <div className="inline-flex items-center gap-2 text-slate-900 font-semibold text-sm sm:text-base px-2">
-            <Cpu className="w-4 h-4 text-embeddly-blue flex-shrink-0" />
-            <span>Build</span>
-          </div>
-          <div className="hidden sm:block w-px h-5 bg-slate-200" />
-          <div className="inline-flex items-center gap-2 text-slate-900 font-semibold text-sm sm:text-base px-2">
-            <TrendingUp className="w-4 h-4 text-embeddly-blue flex-shrink-0" />
-            <span>Grow</span>
           </div>
         </div>
       </div>
 
-      {/* Intro Video Player Modal */}
-      <VideoPlayer
-        isOpen={videoModalOpen}
-        onClose={() => setVideoModalOpen(false)}
-      />
+      <VideoPlayer isOpen={videoModalOpen} onClose={() => setVideoModalOpen(false)} />
     </section>
   );
 }

@@ -1,40 +1,30 @@
 export const NAV_LINKS = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
-  { label: "Video Tour", href: "#video" },
+  { label: "Build Sessions", href: "#video" },
   { label: "Gallery", href: "#gallery" },
   { label: "Events", href: "#events" },
-  { label: "Enroll", href: "#enroll" },
+  { label: "Internship", href: "#program" },
 ];
 
 export const QUICK_LINKS = [
   { label: "Home", href: "#home" },
   { label: "About Embeddly", href: "#about" },
-  { label: "Video Classroom Tour", href: "#video" },
-  { label: "Student Project Gallery", href: "#gallery" },
+  { label: "Build Sessions", href: "#video" },
+  { label: "Student Gallery", href: "#gallery" },
   { label: "Upcoming Events", href: "#events" },
-  { label: "Course Enrollment", href: "#enroll" },
+  { label: "Internship Program", href: "#program" },
 ];
 
 export const SOCIAL_LINKS = [
   {
-    name: "GitHub",
-    href: "https://github.com",
-    ariaLabel: "GitHub",
-  },
-  {
-    name: "YouTube",
-    href: "https://youtube.com",
-    ariaLabel: "YouTube",
-  },
-  {
     name: "LinkedIn",
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/in/akshay-venkatesan-3b589b28a/",
     ariaLabel: "LinkedIn",
   },
   {
-    name: "Discord",
-    href: "https://discord.com",
-    ariaLabel: "Discord",
+    name: "Portfolio",
+    href: "https://akshayv.lovable.app/",
+    ariaLabel: "Mentor Portfolio",
   },
 ];
