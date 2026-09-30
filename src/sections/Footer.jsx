@@ -38,13 +38,15 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="md:col-span-5">
             <a href="#home" className="inline-block mb-4" aria-label="Embeddly Home">
-              <Image
-                src="/logo/NAVAHARISHEMBDDLY (1).png"
-                alt="Embeddly Logo"
-                width={150}
-                height={40}
-                className="h-9 w-auto object-contain brightness-0 invert"
-              />
+              <div className="inline-flex items-center bg-white/10 hover:bg-white/15 transition-colors rounded-xl px-3 py-2 backdrop-blur-sm border border-white/10">
+                <Image
+                  src="/logo/NAVAHARISHEMBDDLY (1).png"
+                  alt="Embeddly Logo"
+                  width={150}
+                  height={40}
+                  className="h-9 w-auto object-contain"
+                />
+              </div>
             </a>
             <p className="text-embeddly-blue font-heading text-xs font-bold tracking-widest uppercase mb-4">
               Learn · Build · Create
