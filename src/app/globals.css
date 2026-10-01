@@ -1,28 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Kalam';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('/fonts/kalam-400.woff2') format('woff2'),
-       url('/fonts/kalam-400.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Kalam';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('/fonts/kalam-700.woff2') format('woff2'),
-       url('/fonts/kalam-700.ttf') format('truetype');
-}
-
 :root {
+  --font-lexend: 'Lexend', sans-serif;
+
   --primary-blue: #2E5AFF;
   --primary-blue-hover: #1E46E6;
   --primary-blue-light: #EBF1FF;
@@ -50,6 +34,10 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+html, body, button, input, select, textarea {
+  font-family: var(--font-lexend), 'Lexend', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
@@ -267,3 +255,25 @@ header, main, footer, section {
   stroke-dashoffset: 220;
   animation: drawUnderline 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
 }
+
+/* ── Video Hero Scroll Indicator ── */
+@keyframes chevronBounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+.scroll-indicator-chevron {
+  animation: chevronBounce 1.6s ease-in-out infinite;
+}
+
+/* ── Navbar transition override for hero-aware duration ── */
+.duration-400 {
+  transition-duration: 400ms;
+}
+

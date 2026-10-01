@@ -10,6 +10,7 @@ import BuildJourney from "@/sections/BuildJourney";
 import WhoIsThisFor from "@/sections/WhoIsThisFor";
 import PhotoGallery from "@/sections/PhotoGallery";
 import FinalCTA from "@/sections/FinalCTA";
+import AntigravityTypography from "@/sections/AntigravityTypography";
 import Footer from "@/sections/Footer";
 
 export const metadata = {
@@ -56,6 +57,9 @@ export default function Home() {
 
         {/* 11. Final CTA — Your First Prototype Could Start Here */}
         <FinalCTA />
+
+        {/* 12. Antigravity EMBEDDLY Typography Signature Section */}
+        <AntigravityTypography />
       </main>
 
       <Footer />

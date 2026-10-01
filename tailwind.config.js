@@ -30,9 +30,11 @@ module.exports = {
         },
       },
       fontFamily: {
-        heading: ["var(--font-space-grotesk)", "sans-serif"],
-        body: ["var(--font-inter)", "sans-serif"],
-        handwriting: ["var(--font-kalam)", "Kalam", "cursive"],
+        heading: ["var(--font-lexend)", "Lexend", "sans-serif"],
+        body: ["var(--font-lexend)", "Lexend", "sans-serif"],
+        sans: ["var(--font-lexend)", "Lexend", "sans-serif"],
+        mono: ["var(--font-lexend)", "Lexend", "monospace"],
+        handwriting: ["var(--font-lexend)", "Lexend", "sans-serif"],
       },
       boxShadow: {
         "amber-glow": "0 4px 20px rgba(255, 176, 32, 0.35)",

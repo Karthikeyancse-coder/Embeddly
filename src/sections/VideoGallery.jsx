@@ -4,7 +4,6 @@ import React, { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Play, Pause, Volume2, VolumeX, ArrowDown } from "lucide-react";
-import { kalam } from "@/lib/fonts";
 
 /**
  * EMBEDDLY - CINEMATIC SCROLL-DRIVEN VIDEO GALLERY SECTION
@@ -303,12 +302,7 @@ export default function VideoGallery() {
           {/* TO MOVE: change 'top-[27%]' (up/down) or 'left-[5%]' (left/right) */}
           <div className="hidden lg:flex flex-col items-start absolute top-[27%] left-[5%] pointer-events-none select-none animate-note-fade-in">
             <div
-              className={`${kalam.className} font-bold text-[32px] text-embeddly-blue leading-[0.98] tracking-wide`}
-              style={{
-                fontFamily: `'Kalam', ${kalam.style.fontFamily}, cursive`,
-                fontWeight: 700,
-                fontStyle: "normal",
-              }}
+              className="font-heading font-bold text-[30px] text-embeddly-blue leading-[0.98] tracking-wide"
             >
               <span className="block">Real</span>
               <span className="block ml-2">Learning</span>
@@ -336,12 +330,7 @@ export default function VideoGallery() {
           {/* TO MOVE: change 'top-[31%]' (up/down) or 'right-[5%]' (left/right) */}
           <div className="hidden lg:flex flex-col items-start absolute top-[51%] right-[3%] pointer-events-none select-none animate-note-fade-in">
             <div
-              className={`${kalam.className} font-bold text-[32px] text-embeddly-blue leading-[0.98] tracking-wide`}
-              style={{
-                fontFamily: `'Kalam', ${kalam.style.fontFamily}, cursive`,
-                fontWeight: 700,
-                fontStyle: "normal",
-              }}
+              className="font-heading font-bold text-[30px] text-embeddly-blue leading-[0.98] tracking-wide"
             >
               <span className="block">From</span>
               <span className="block ml-2">Concept</span>

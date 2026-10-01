@@ -1,20 +1,8 @@
-import { Space_Grotesk, Inter, Kalam } from "next/font/google";
+import { Lexend } from "next/font/google";
 
-export const spaceGrotesk = Space_Grotesk({
+export const lexend = Lexend({
   subsets: ["latin"],
-  variable: "--font-space-grotesk",
+  variable: "--font-lexend",
   display: "swap",
-});
-
-export const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
-
-export const kalam = Kalam({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-kalam",
-  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });

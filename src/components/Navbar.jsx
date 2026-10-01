@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import Button from "./Button";
@@ -8,49 +8,84 @@ import MobileMenu from "./MobileMenu";
 import { NAV_LINKS } from "@/data/navigation";
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(false);   // past 50px → white bg
+  const [visible, setVisible] = useState(false);     // hero-aware: hidden until scrolled past hero
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const heroHeightRef = useRef(0);
 
   useEffect(() => {
+    // Measure the hero height once on mount (it's 100svh / 100vh)
+    const measureHero = () => {
+      const heroEl = document.getElementById("home");
+      if (heroEl) {
+        heroHeightRef.current = heroEl.offsetHeight;
+      } else {
+        // Fallback: use viewport height
+        heroHeightRef.current = window.innerHeight;
+      }
+    };
+    measureHero();
+    window.addEventListener("resize", measureHero, { passive: true });
+
     const handleScroll = () => {
       const scrollY = window.scrollY;
+
+      // ── Hero-aware visibility ──
+      // Navbar is hidden when scrollY = 0 (user sees full video)
+      // Starts appearing after ~80px of scroll (feels intentional)
+      // Fully visible once past 160px
+      const threshold = Math.max(80, heroHeightRef.current * 0.1);
+      setVisible(scrollY > threshold);
       setScrolled(scrollY > 50);
 
-      const sectionIds = ["home", "about", "brand", "why", "video", "mentor", "gallery", "events", "program", "who", "enroll"];
+      // ── Active section tracking ──
+      const sectionIds = [
+        "home", "about", "brand", "why", "video",
+        "mentor", "gallery", "events", "program", "who", "enroll",
+      ];
       let current = "home";
-
       for (const id of sectionIds) {
         const el = document.getElementById(id);
         if (el) {
           const top = el.offsetTop - 140;
-          const height = el.offsetHeight;
-          if (scrollY >= top && scrollY < top + height) {
+          if (scrollY >= top && scrollY < top + el.offsetHeight) {
             current = id;
           }
         }
       }
-
       setActiveSection(current);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    handleScroll(); // run once to set initial state (scrollY=0 → hidden)
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", measureHero);
+    };
   }, []);
 
   return (
     <>
       <header
         id="mainNavbar"
-        className={`sticky top-0 z-[10000] w-full md:fixed md:top-0 md:left-0 md:w-full md:z-40 transition-all duration-300 ${
+        className={`fixed top-0 left-0 w-full z-[10000] transition-all duration-400 ${
+          // Slide in from top when visible
+          visible
+            ? "translate-y-0 opacity-100 pointer-events-auto"
+            : "-translate-y-full opacity-0 pointer-events-none"
+        } ${
+          // Background: solid when scrolled past 50, glass when just appeared
           mobileMenuOpen || scrolled
-            ? "bg-white shadow-[0_4px_20px_rgba(15,23,42,0.06)] border-b border-slate-200"
-            : "bg-white md:bg-white/80 md:backdrop-blur-sm border-b border-slate-200/50"
+            ? "bg-white shadow-[0_4px_20px_rgba(15,23,42,0.08)] border-b border-slate-200"
+            : "bg-white/90 backdrop-blur-md border-b border-slate-200/50"
         }`}
+        style={{ transitionProperty: "transform, opacity, background-color, box-shadow" }}
+        aria-hidden={!visible}
       >
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between relative z-20">
+
           {/* Logo */}
           <a
             href="#home"
@@ -85,9 +120,7 @@ export default function Navbar() {
                       {link.label}
                       <span
                         className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2.5px] bg-embeddly-blue rounded-full transition-all duration-300 ${
-                          isActive
-                            ? "w-full"
-                            : "w-0 group-hover:w-full"
+                          isActive ? "w-full" : "w-0 group-hover:w-full"
                         }`}
                       />
                     </a>
@@ -97,16 +130,12 @@ export default function Navbar() {
             </ul>
           </nav>
 
-          {/* Desktop Right CTA & Mobile Toggle */}
+          {/* Desktop CTA + Mobile Toggle */}
           <div className="flex items-center gap-4">
-            <Button
-              href="#enroll"
-              className="hidden md:inline-flex"
-            >
+            <Button href="#enroll" className="hidden md:inline-flex">
               Start Building
             </Button>
 
-            {/* Mobile Menu Toggle Button */}
             <button
               type="button"
               className="md:hidden p-2 text-slate-800 hover:bg-slate-100 rounded-lg transition-colors"
@@ -125,7 +154,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu Component */}
       <MobileMenu
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}

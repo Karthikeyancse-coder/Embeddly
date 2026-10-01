@@ -1,4 +1,4 @@
-import { spaceGrotesk, inter, kalam } from "@/lib/fonts";
+import { lexend } from "@/lib/fonts";
 import "./globals.css";
 import CircuitBackground from "@/components/CircuitBackground";
 
@@ -29,11 +29,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${kalam.variable}`}
-    >
-      <body className="font-body bg-embeddly-bg text-slate-900 antialiased selection:bg-embeddly-blue selection:text-white">
+    <html lang="en" className={lexend.variable}>
+      <body className="font-sans bg-embeddly-bg text-slate-900 antialiased selection:bg-embeddly-blue selection:text-white">
         <CircuitBackground />
         {children}
       </body>
