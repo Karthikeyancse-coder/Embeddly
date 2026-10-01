@@ -84,12 +84,12 @@ export default function Navbar() {
         style={{ transitionProperty: "transform, opacity, background-color, box-shadow" }}
         aria-hidden={!visible}
       >
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between relative z-20">
+        <div className="w-full px-5 sm:px-8 md:px-8 lg:px-10 xl:px-12 h-16 sm:h-20 flex items-center justify-between relative z-20">
 
-          {/* Logo */}
+          {/* Logo — Aligned to Left */}
           <a
             href="#home"
-            className="flex items-center gap-3"
+            className="flex items-center gap-3 shrink-0"
             aria-label="Embeddly Home"
           >
             <Image
@@ -102,16 +102,16 @@ export default function Navbar() {
             />
           </a>
 
-          {/* Desktop Navigation Links */}
-          <nav aria-label="Primary Navigation" className="hidden md:block">
-            <ul className="flex items-center gap-8 lg:gap-10">
+          {/* Desktop Navigation Links — Centered in Middle Space */}
+          <nav aria-label="Primary Navigation" className="hidden md:flex items-center justify-center flex-1 mx-4 lg:mx-8 xl:mx-12">
+            <ul className="flex items-center gap-6 lg:gap-8 xl:gap-9">
               {NAV_LINKS.map((link) => {
                 const isActive = activeSection === link.href.replace("#", "");
                 return (
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className={`relative font-heading text-[1.02rem] font-semibold py-2 transition-colors duration-200 group ${
+                      className={`relative font-heading text-[0.98rem] lg:text-[1.02rem] font-semibold py-2 transition-colors duration-200 group ${
                         isActive
                           ? "text-embeddly-blue"
                           : "text-slate-800 hover:text-embeddly-blue"
@@ -130,8 +130,8 @@ export default function Navbar() {
             </ul>
           </nav>
 
-          {/* Desktop CTA + Mobile Toggle */}
-          <div className="flex items-center gap-4">
+          {/* Desktop CTA + Mobile Toggle — Aligned to Right */}
+          <div className="flex items-center gap-4 shrink-0">
             <Button href="#enroll" className="hidden md:inline-flex">
               Start Building
             </Button>

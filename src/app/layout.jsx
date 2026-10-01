@@ -1,6 +1,7 @@
 import { lexend } from "@/lib/fonts";
 import "./globals.css";
 import CircuitBackground from "@/components/CircuitBackground";
+import CustomCursor from "@/components/CustomCursor";
 
 export const metadata = {
   metadataBase: new URL("https://embeddly.edu"),
@@ -31,6 +32,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={lexend.variable}>
       <body className="font-sans bg-embeddly-bg text-slate-900 antialiased selection:bg-embeddly-blue selection:text-white">
+        <CustomCursor />
         <CircuitBackground />
         {children}
       </body>
