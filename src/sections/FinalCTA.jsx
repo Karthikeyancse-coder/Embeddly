@@ -1,83 +1,69 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
+import { useState } from "react";
+import BookingModal from "@/components/BookingModal";
 
 export default function FinalCTA() {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+
   return (
-    <section id="enroll" className="py-20 sm:py-28 bg-white relative overflow-hidden">
-      {/* Subtle background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0 opacity-30"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(46,90,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(46,90,255,0.04) 1px, transparent 1px)",
-            backgroundSize: "50px 50px",
-          }}
-        />
-      </div>
+    <>
+      <section id="enroll" className="py-16 sm:py-24 bg-[#F8FAFC] relative overflow-hidden">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="w-full rounded-2xl sm:rounded-[28px] lg:rounded-[32px] p-8 sm:p-12 lg:p-16 text-center relative overflow-hidden bg-gradient-to-br from-[#EEF4FF] via-white to-[#EAEFFE] border border-[#D5E2FC] shadow-[0_20px_50px_-15px_rgba(46,90,255,0.08),0_1px_3px_rgba(15,23,42,0.04)]">
+            {/* Subtle background engineering grid accent */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-20 select-none"
+              style={{
+                backgroundImage:
+                  "linear-gradient(#2E5AFF 1px, transparent 1px), linear-gradient(90deg, #2E5AFF 1px, transparent 1px)",
+                backgroundSize: "40px 40px",
+              }}
+            />
 
-      <div className="max-w-[900px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            {/* Ambient soft glow */}
+            <div className="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-[#2E5AFF]/8 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-24 -right-24 w-72 h-72 rounded-full bg-indigo-400/8 blur-3xl pointer-events-none" />
 
-        {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-embeddly-blue-subtle border border-dashed border-[#BFD3FE] text-embeddly-blue font-heading text-xs font-bold tracking-widest uppercase mb-7">
-          <span className="w-2 h-2 rounded-full bg-embeddly-blue animate-pulse" />
-          EDDY is ready. Are you?
-        </div>
+            <div className="relative z-10 max-w-2xl mx-auto">
+              {/* Headline */}
+              <h2 className="font-heading text-2xl sm:text-4xl lg:text-[42px] font-extrabold text-[#0F172A] tracking-tight leading-[1.18] mb-4">
+                Ready to Start Building Your Future?
+              </h2>
 
-        {/* Headline */}
-        <h2 className="font-heading text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] font-bold text-slate-900 leading-[1.1] tracking-tight mb-5">
-          Your First Prototype{" "}
-          <span className="block mt-1 bg-gradient-to-r from-embeddly-blue to-[#0042E0] bg-clip-text text-transparent">
-            Could Start Here.
-          </span>
-        </h2>
+              {/* Copy */}
+              <p className="text-slate-600 text-sm sm:text-base lg:text-[17px] leading-relaxed mb-8 sm:mb-10 font-normal max-w-xl mx-auto">
+                Turn your curiosity into real engineering experience through structured, hands-on learning.
+              </p>
 
-        {/* Copy */}
-        <p className="text-slate-500 text-base sm:text-lg leading-relaxed max-w-xl mx-auto mb-8">
-          You don&apos;t need to know everything before you begin. You just need enough
-          curiosity to build the first thing.
-        </p>
-
-        {/* Quick stats */}
-        <div className="flex items-center justify-center flex-wrap gap-x-8 gap-y-4 mb-10 text-sm font-heading font-bold text-slate-900">
-          <div className="flex items-center gap-2">
-            <span className="text-embeddly-blue text-lg">10</span>
-            Builders
-          </div>
-          <div className="w-px h-5 bg-slate-200 hidden sm:block" />
-          <div className="flex items-center gap-2">
-            <span className="text-embeddly-blue text-lg">2</span>
-            Weeks
-          </div>
-          <div className="w-px h-5 bg-slate-200 hidden sm:block" />
-          <div className="flex items-center gap-2">
-            <span className="text-embeddly-blue text-lg">1</span>
-            Real Build Experience
+              {/* CTAs */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSdzJmpaxI66ItK05FitoIQ7jOeOrA_vra4jAW717RMDhlQ1pw/viewform?fbzx=6666488062294828495"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 sm:px-9 py-4 rounded-full bg-[#2E5AFF] hover:bg-[#1E42D9] text-white font-heading font-bold text-base shadow-[0_8px_24px_rgba(46,90,255,0.3)] hover:shadow-[0_12px_32px_rgba(46,90,255,0.45)] transition-all duration-300 group cursor-pointer"
+                >
+                  Enquire Now
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setIsBookingModalOpen(true)}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 sm:px-9 py-4 rounded-full bg-white hover:bg-slate-50 text-slate-800 font-heading font-bold text-base border border-slate-200/90 shadow-xs hover:border-[#2E5AFF]/40 hover:text-[#2E5AFF] transition-all duration-300 group cursor-pointer"
+                >
+                  Book a Free Call
+                </button>
+              </div>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSdzJmpaxI66ItK05FitoIQ7jOeOrA_vra4jAW717RMDhlQ1pw/viewform?fbzx=6666488062294828495"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-embeddly-amber hover:bg-embeddly-amber-hover text-slate-900 font-heading font-bold text-base shadow-amber-glow hover:shadow-[0_8px_28px_rgba(255,176,32,0.5)] transition-all duration-300 group cursor-pointer w-full sm:w-auto justify-center"
-          >
-            Start Building →
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </a>
-          <a
-            href="#program"
-            onClick={(e) => { e.preventDefault(); document.getElementById("program")?.scrollIntoView({ behavior: "smooth" }); }}
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-embeddly-blue text-embeddly-blue font-heading font-bold text-base hover:bg-embeddly-blue hover:text-white transition-all duration-300 group cursor-pointer w-full sm:w-auto justify-center shadow-sm hover:shadow-blue-glow"
-          >
-            Explore the Internship
-            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-          </a>
-        </div>
-      </div>
-    </section>
+      {/* Multi-step Booking Modal */}
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
+      />
+    </>
   );
 }
